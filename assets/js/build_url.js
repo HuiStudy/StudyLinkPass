@@ -5,7 +5,7 @@ function build_url(){
     }
     else {
         // 直接 encodeURIComponent 保证 UTF-8 安全，再 btoa
-        var encoded = btoa(encodeURIComponent(rawUrl));
+        var encoded = btoa(encodeURIComponent(url));
         var fullLink = document.location.href + "api?url=" + encoded;
         document.getElementById("b_url").innerHTML = '<a href="' + fullLink + '" target="_blank">' + fullLink + '</a>';
     }

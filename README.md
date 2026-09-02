@@ -30,7 +30,7 @@
 ## 🚀 使用方法
 
 ### 1. 访问网站
-进入防红链接生成器：[https://taocrypt.github.io/LinkPass](https://open.mid.abrdns.com/)
+进入防红链接生成器：[[https://github.com/HuiStudy/StudyLinkPass](https://open.mid.abrdns.com/)
 
 ### 2. 输入密码
 - 默认密码：`123456`

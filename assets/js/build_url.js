@@ -6,7 +6,7 @@ function build_url(){
     else {
         // 编码：encodeURIComponent + btoa（与 api/index.html 解码端对应）
         var encoded = btoa(encodeURIComponent(url));
-        var resultUrl = document.location.href + "api?url=" + encoded;
+        var resultUrl = document.location.href + "api?cc=" + encoded;
     
         // 1. 显示链接
         document.getElementById("b_url").innerHTML =

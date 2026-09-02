@@ -123,61 +123,6 @@
 				border: 1px solid rgba(231, 76, 60, 0.2);
 			}
 			
-			/* ===== 新增：生成结果区域样式 ===== */
-			#result-box {
-				margin-top: 20px;
-				display: none;
-			}
-			#result-box.show {
-				display: block;
-			}
-			#result-box .result-label {
-				display: block;
-				color: #7f8c8d;
-				font-size: 14px;
-				margin-bottom: 8px;
-			}
-			#result-url {
-				display: block;
-				width: 100%;
-				padding: 14px 16px;
-				border: 2px solid #e0e6ed;
-				border-radius: 12px;
-				font-size: 14px;
-				color: #2c3e50;
-				background: #f8f9fa;
-				box-sizing: border-box;
-				word-break: break-all;
-				text-decoration: none;
-				transition: border-color 0.3s;
-			}
-			#result-url:hover {
-				border-color: #667eea;
-			}
-			#copy-btn {
-				margin-top: 12px;
-				width: 100%;
-				padding: 14px;
-				border: none;
-				border-radius: 12px;
-				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-				color: #fff;
-				font-size: 16px;
-				font-weight: 600;
-				cursor: pointer;
-				transition: transform 0.2s, box-shadow 0.2s;
-			}
-			#copy-btn:active {
-				transform: scale(0.98);
-			}
-			#copy-tip {
-				margin-top: 10px;
-				font-size: 13px;
-				color: #27ae60;
-				display: none;
-			}
-			/* ========================== */
-
 			/* 响应式设计 */
 			@media (max-width: 480px) {
 				.password-container {
@@ -211,17 +156,13 @@
 		</header>
 
 		<!-- Signup Form -->
-		<form id="signup-form" method="post" onsubmit="return false;">
+		<form id="signup-form" method="post">
 			<input type="url" name="url" id="url" placeholder="需要跳转的网址" />
 			<input type="button" value="生成" onclick="build_url()"/>
 		</form>
+		<p id="b_url"></p>
 
-		<!-- ===== 新增：生成结果展示区 ===== -->
-		<div id="result-box">
-			<span class="result-label">✅ 防红链接已生成，可点击测试或复制：</span>
-			<a href="javascript:void(0)" target="_blank" rel="noopener">https://</a>
-		</div>
-		<!-- ================================ -->
+		<script src="./assets/js/build_url.js"></script>
 
 		<!-- Footer -->
 		<footer id="footer">
@@ -249,90 +190,6 @@
 		<script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script><script>LA.init({id:"K8YSQIj3WDtj9gG6",ck:"K8YSQIj3WDtj9gG6"})</script>
 		
 		<script>
-			// ========== Base64 编码的链接生成逻辑 ==========
-			// 生成链接格式：https://open.mid.abrdns.com/api/?url=<base64>
-			// 参数名用 url= ，值为 Base64 编码后的目标地址
-			var API_PATH = 'api/';   // 跳转接口路径（对应仓库里的 api/ 目录）
-
-			// UTF-8 安全的 Base64 编码：先 encodeURIComponent 再 btoa，避免中文/特殊字符乱码
-			function base64Encode(str) {
-				return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-					return String.fromCharCode('0x' + p1);
-				}));
-			}
-
-			// 生成防红链接
-			function build_url() {
-				var input = document.getElementById('url').value.trim();
-				if (!input) {
-					alert('请输入需要跳转的网址');
-					return;
-				}
-
-				// 自动补全协议（用户经常漏写 http/https）
-				if (!/^https?:\/\//i.test(input)) {
-					input = 'https://' + input;
-				}
-
-				// 校验是否为合法 URL
-				var valid = true;
-				try {
-					new URL(input);
-				} catch (e) {
-					valid = false;
-				}
-				if (!valid) {
-					alert('请输入正确的网址格式，如 https://example.com');
-					return;
-				}
-
-				// Base64 编码目标地址
-				var encoded = base64Encode(input);
-
-				// 拼接为 https://<域名>/api/?url=<base64>
-				var baseUrl = location.origin + '/';
-				var resultUrl = baseUrl + API_PATH + '?url=' + encodeURIComponent(encoded);
-
-				// 展示结果：可点击测试 + 供复制
-				var resultEl = document.getElementById('result-url');
-				resultEl.href = resultUrl;
-				resultEl.textContent = resultUrl;
-				document.getElementById('result-box').classList.add('show');
-				document.getElementById('copy-tip').style.display = 'none';
-
-				// 自动复制到剪贴板
-				copyText(resultUrl);
-			}
-
-			// 点击"复制链接"按钮
-			function copy_result() {
-				var resultEl = document.getElementById('result-url');
-				copyText(resultEl.textContent).then(function() {
-					var tip = document.getElementById('copy-tip');
-					tip.style.display = 'block';
-					setTimeout(function() { tip.style.display = 'none'; }, 2000);
-				});
-			}
-
-			// 通用复制函数（兼容旧浏览器）
-			function copyText(text) {
-				if (navigator.clipboard && navigator.clipboard.writeText) {
-					return navigator.clipboard.writeText(text);
-				}
-				return new Promise(function(resolve, reject) {
-					var ta = document.createElement('textarea');
-					ta.value = text;
-					ta.style.position = 'fixed';
-					ta.style.opacity = '0';
-					document.body.appendChild(ta);
-					ta.select();
-					try { document.execCommand('copy'); resolve(); }
-					catch (e) { reject(e); }
-					document.body.removeChild(ta);
-				});
-			}
-			// =================================================
-
 			// 密码验证功能
 			const CORRECT_PASSWORD = '123456';
 			

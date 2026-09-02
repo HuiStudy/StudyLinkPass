@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>CF-Navs 资源入口</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8edf3 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: #1f2d3d;
+  }
+  .card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 360px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .logo {
+    width: 56px;
+    height: 56px;
+    margin: 0 auto 16px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #4e8cff, #2b6cff);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 24px;
+    font-weight: 700;
+  }
+  h1 { font-size: 19px; font-weight: 600; margin-bottom: 8px; }
+  p.desc { font-size: 14px; color: #667; line-height: 1.6; margin-bottom: 24px; }
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #4e8cff, #2b6cff);
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .2s;
+  }
+  .btn:active { opacity: 0.85; }
+  .tip { font-size: 12px; color: #99a; margin-top: 16px; line-height: 1.5; }
+  .domain { color: #2b6cff; font-weight: 600; word-break: break-all; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">C</div>
+    <h1>CF-Navs 资源入口</h1>
+    <p class="desc">点击下方按钮，将为你安全跳转至目标页面。</p>
+    <button class="btn" id="jumpBtn">继续访问</button>
+    <p class="tip">目标地址：<span class="domain" id="domain"></span></p>
+  </div>
+
+<script>
+  // 真实目标地址（明文，不编码，便于微信安全扫描透视）
+  var target = "https://navs.study-api.cc.cd";
+
+  // 页面上展示目标域名
+  document.getElementById('domain').textContent = target;
+
+  // 用户主动点击后才跳转 —— 透明、主动触发，符合微信外链规范
+  document.getElementById('jumpBtn').addEventListener('click', function () {
+    window.location.href = target;
+  });
+</script>
+</body>
+</html>

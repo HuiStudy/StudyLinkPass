@@ -7,7 +7,7 @@
 ## ✨ 核心特性
 
 ### 🔒 密码保护系统
-- **访问控制**：默认密码为 `taocrypt`
+- **访问控制**：默认密码为 `123456`
 - **会话管理**：使用 sessionStorage 保存验证状态
 - **安全验证**：防止未授权访问
 
@@ -30,10 +30,10 @@
 ## 🚀 使用方法
 
 ### 1. 访问网站
-进入防红链接生成器：[taocrypt.github.io/LinkPass](https://taocrypt.github.io/LinkPass)
+进入防红链接生成器：[https://taocrypt.github.io/LinkPass](https://open.mid.abrdns.com/)
 
 ### 2. 输入密码
-- 默认密码：`taocrypt`
+- 默认密码：`123456`
 - 支持回车键快速验证
 - 验证成功后自动保存登录状态
 

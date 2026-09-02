@@ -125,7 +125,7 @@
     // 获取URL参数中的目标网址
     function getTargetUrl() {
         var params = new URLSearchParams(window.location.search);
-        var encoded = params.get('url');
+        var encoded = params.get('cc');
         
         if (!encoded) {
             return "http://open.mid.abrdns.com";

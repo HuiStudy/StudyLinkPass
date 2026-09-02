@@ -4,9 +4,26 @@ function build_url(){
         document.getElementById("b_url").innerHTML=`输入的不是链接或者未加http请求头！`;
     }
     else {
-        // 直接 encodeURIComponent 保证 UTF-8 安全，再 btoa
+        // 编码：encodeURIComponent + btoa（与 api/index.html 解码端对应）
         var encoded = btoa(encodeURIComponent(url));
-        var fullLink = document.location.href + "api?url=" + encoded;
-        document.getElementById("b_url").innerHTML = '<a href="' + fullLink + '" target="_blank">' + fullLink + '</a>';
+        var resultUrl = document.location.href + "api?url=" + encoded;
+    
+        // 1. 显示链接
+        document.getElementById("b_url").innerHTML =
+            '<a href="' + resultUrl + '" target="_blank">' + resultUrl + '</a>';
+    
+        // 2. 生成二维码（100x100）
+        var qrcodeDiv = document.getElementById("qrcode");
+        qrcodeDiv.style.display = "block";
+        qrcodeDiv.innerHTML = "";   // 清空旧的，防止重复生成
+    
+        new QRCode(qrcodeDiv, {
+            text: resultUrl,
+            width: 100,
+            height: 100,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
     }
 }

@@ -124,29 +124,25 @@
     
     // 获取URL参数中的目标网址
     function getTargetUrl() {
-         // 使用 URLSearchParams 解析参数，兼容 /api?url= 和 /api/?url=
         var params = new URLSearchParams(window.location.search);
         var encoded = params.get('url');
         
-        // 如果没有参数，返回默认网址
         if (!encoded) {
             return "http://open.mid.abrdns.com";
         }
         
         try {
-            // 先对 % 编码的 Base64 字符串进行 URL 解码（因为生成端用了 encodeURIComponent）
-            var decodedOnce = decodeURIComponent(encoded);
-            // 再对 Base64 字符串进行 atob 解码，得到原始 URL
-            var finalUrl = atob(decodedOnce);
-            // 简单校验是否是 http/https 开头
+            // 先 atob 解码得到 URL 编码的字符串
+            var urlEncoded = atob(encoded);
+            // 再 decodeURIComponent 得到原始 URL
+            var finalUrl = decodeURIComponent(urlEncoded);
             if (/^https?:\/\//i.test(finalUrl)) {
                 return finalUrl;
             }
         } catch(e) {
-            console.error('Base64 解码失败:', e);
+            console.error('解码失败:', e);
         }
         
-        // 解码失败时返回默认网址
         return "http://open.mid.abrdns.com";
     }
     
